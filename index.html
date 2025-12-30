@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zero Gravity - TurboWarp Player</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%); 
+            color: white; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            overflow: hidden; 
+        }
+        #project { 
+            width: 485px; 
+            height: 402px; 
+            border: 2px solid #00d4ff; 
+            border-radius: 12px; 
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.3); 
+            background: #000; 
+        }
+        #loading { 
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            text-align: center; 
+        }
+        #error { 
+            color: #ff6b6b; 
+            background: rgba(255, 107, 107, 0.1); 
+            padding: 20px; 
+            border-radius: 8px; 
+            max-width: 400px; 
+        }
+        button { 
+            background: #00d4ff; 
+            color: #000; 
+            border: none; 
+            padding: 10px 20px; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            margin-top: 10px; 
+        }
+        button:hover { background: #00b8ff; }
+        @media (max-width: 500px) { 
+            #project { width: 100vw; height: 100vh; border-radius: 0; border: none; } 
+        }
+    </style>
+</head>
+<body>
+    <div id="loading">
+        <h2>🚀 Loading Zero Gravity...</h2>
+        <p>Fetching project from Scratch...</p>
+    </div>
+    <div id="project" style="display: none;"></div>
+    <div id="error" style="display: none;"></div>
+
+    <!-- TurboWarp Scaffolding (includes runtime, VM, renderer, JSZip, etc.) -->
+    <script src="https://cdn.jsdelivr.net/npm/@turbowarp/scaffolding@latest/dist/scaffolding-with-music.js"></script><grok-card data-id="58bdc5" data-type="citation_card" ></grok-card><grok-card data-id="ce2759" data-type="citation_card" ></grok-card>
+
+    <script>
+        const projectId = '1196196065';
+        const container = document.getElementById('project');
+        const loadingEl = document.getElementById('loading');
+        const errorEl = document.getElementById('error');
+
+        // Create scaffolding instance
+        const scaffolding = new Scaffolding.Scaffolding();
+
+        // Configure for standard Scratch stage + UI
+        scaffolding.width = 485;
+        scaffolding.height = 402;
+        scaffolding.resizeMode = 'preserve-ratio';
+
+        // Setup and append
+        scaffolding.setup();
+        scaffolding.appendTo(container);
+        container.style.display = 'block';
+
+        // Load project from Scratch URL (uses TurboWarp trampoline for auth/token)
+        async function loadProject() {
+            try {
+                // Step 1: Get project metadata/token from TurboWarp Trampoline API
+                const metadataRes = await fetch(`https://trampoline.turbowarp.org/api/projects/${projectId}`);
+                const metadata = await metadataRes.json();
+                const token = metadata.project_token;
+
+                // Step 2: Fetch .sb3 binary with token
+                const projectRes = await fetch(`https://projects.scratch.mit.edu/${projectId}?token=${token}`);
+                if (!projectRes.ok) throw new Error(`Failed to fetch project: ${projectRes.status}`);
+                const projectData = await projectRes.arrayBuffer();
+
+                // Step 3: Load into runtime
+                await scaffolding.loadProject(projectData);
+
+                // Step 4: Start the project
+                scaffolding.greenFlag();
+
+                loadingEl.style.display = 'none';
+            } catch (err) {
+                loadingEl.style.display = 'none';
+                errorEl.innerHTML = `
+                    <h3>❌ Failed to load project</h3>
+                    <p>${err.message}</p>
+                    <p><strong>Tips:</strong></p>
+                    <ul>
+                        <li>Ensure the project is public/shared on Scratch.</li>
+                        <li>Download .sb3 from Scratch editor and place as <code>project.sb3</code> locally, then change fetch to <code>./project.sb3</code>.</li>
+                        <li>Or use TurboWarp Packager for standalone export.</li>
+                    </ul>
+                    <button onclick="loadProject()">Retry</button>
+                `;
+                errorEl.style.display = 'block';
+                console.error('Load error:', err);
+            }
+        }
+
+        // Auto-load on page ready
+        window.addEventListener('load', loadProject);
+    </script>
+</body>
+</html>
