@@ -1,9 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- ================= BASIC ================= -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zero Gravity</title>
+
+    <!-- ================= FAVICON / LOGO ================= -->
+    <link rel="icon" type="image/png" href="logo.png">
+
+    <!-- ================= SEO CORE ================= -->
+    <meta name="description" content="Play Zero Gravity, a physics-based browser game where you switch gravity directions to solve puzzles. Built with TurboWarp and playable instantly.">
+    <meta name="keywords" content="Zero Gravity game, gravity switch game, physics puzzle game, Scratch TurboWarp game, browser game">
+    <meta name="author" content="The Coding Corner">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://the-coding-corner-100.github.io/zero-gravity/">
+
+    <!-- ================= OPEN GRAPH (Google / Discord / WhatsApp) ================= -->
+    <meta property="og:title" content="Zero Gravity – Gravity Switching Physics Game">
+    <meta property="og:description" content="Switch gravity, defy physics, and solve challenging puzzles in this browser-based game.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://the-coding-corner-100.github.io/zero-gravity/">
+    <meta property="og:image" content="https://the-coding-corner-100.github.io/zero-gravity/logo.png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+
+    <!-- ================= TWITTER ================= -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Zero Gravity – Physics Puzzle Game">
+    <meta name="twitter:description" content="A gravity-switching puzzle game playable directly in your browser.">
+    <meta name="twitter:image" content="https://the-coding-corner-100.github.io/zero-gravity/logo.png">
+
+    <!-- ================= PERFORMANCE ================= -->
+    <link rel="preconnect" href="https://turbowarp.org">
+    <link rel="dns-prefetch" href="https://turbowarp.org">
+
+    <!-- ================= STRUCTURED DATA (IMPORTANT) ================= -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "GameApplication",
+      "name": "Zero Gravity",
+      "description": "A physics puzzle game where players switch gravity direction to complete levels.",
+      "image": "https://the-coding-corner-100.github.io/zero-gravity/logo.png",
+      "url": "https://the-coding-corner-100.github.io/zero-gravity/",
+      "author": {
+        "@type": "Organization",
+        "name": "The Coding Corner"
+      },
+      "applicationCategory": "Game",
+      "operatingSystem": "Web",
+      "browserRequirements": "Requires HTML5"
+    }
+    </script>
     <style>
         * {
             margin: 0;
@@ -28,8 +77,13 @@
     </style>
 </head>
 <body>
-    <iframe src="https://turbowarp.org/1242180784/embed"         allow="fullscreen; autoplay *; gamepad *; microphone *; camera *; encrypted-media *"
-        allowfullscreen></iframe>
+   <iframe
+  src="https://turbowarp.org/1242180784/embed?autoplay=1"
+  allow="autoplay; fullscreen; gamepad; microphone; camera; encrypted-media"
+  allowfullscreen
+  style="width: 100%; height: 100%; border: none;">
+</iframe>
+
 
 
 
@@ -56,5 +110,7 @@
             }, { once: true });
         });
     </script>
+
+
 </body>
 </html>
